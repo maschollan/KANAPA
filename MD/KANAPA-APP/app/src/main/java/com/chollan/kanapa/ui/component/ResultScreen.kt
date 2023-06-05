@@ -2,6 +2,7 @@ package com.chollan.kanapa.ui.component
 
 import android.app.Activity
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
@@ -40,12 +42,14 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.chollan.kanapa.R
 import com.chollan.kanapa.ui.navigation.Screen
 import com.chollan.kanapa.ui.theme.KANAPATheme
 
 @Composable
 fun ResultScreen(
+    imageResult: Uri,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
@@ -70,7 +74,7 @@ fun ResultScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 Image(
-                    painter = painterResource(R.drawable.cupang),
+                    painter = rememberAsyncImagePainter(imageResult),
                     contentDescription = "",
                     modifier = Modifier
                         .height(320.dp)
@@ -127,6 +131,18 @@ fun ResultScreen(
                 }
             }
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xBB1E1E1E), Color(0x001E1E1E)
+                        )
+                    )
+                )
+        ) {}
         ActionTopBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -143,7 +159,7 @@ fun ResultScreen(
 fun PreviewResultScreen() {
     KANAPATheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
-            ResultScreen()
+            ResultScreen(Uri.EMPTY)
         }
     }
 }

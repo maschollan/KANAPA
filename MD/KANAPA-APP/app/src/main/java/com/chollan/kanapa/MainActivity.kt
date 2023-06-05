@@ -13,12 +13,12 @@ class MainActivity : ComponentActivity() {
 
     companion object {
 
-        private val REQUIRED_PERMISSIONS = arrayOf(
+        val REQUIRED_PERMISSIONS = arrayOf(
             Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        private const val REQUEST_CODE_PERMISSIONS = 10
+        const val REQUEST_CODE_PERMISSIONS = 10
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

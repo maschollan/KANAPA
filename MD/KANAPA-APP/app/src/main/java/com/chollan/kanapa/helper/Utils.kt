@@ -9,12 +9,16 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
 import com.chollan.kanapa.R
+import com.chollan.kanapa.model.LocationDetails
+import com.chollan.kanapa.model.NearStore
+import com.google.android.gms.maps.model.LatLng
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.math.*
 
 fun Int.setAbsolute(): Int {
     return if (this < 0) -this
@@ -78,4 +82,28 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
     inputStream.close()
 
     return myFile
+}
+
+fun NearStore.toLatLng(): LatLng {
+    return LatLng(this.lat.toDouble(), this.lon.toDouble())
+}
+
+fun calculateDistance(location1: LocationDetails, location2: LocationDetails): Double {
+    val earthRadius = 6371
+    val lat1 = Math.toRadians(location1.latitude)
+    val lon1 = Math.toRadians(location1.longitude)
+    val lat2 = Math.toRadians(location2.latitude)
+    val lon2 = Math.toRadians(location2.longitude)
+
+    val dlon = lon2 - lon1
+    val dlat = lat2 - lat1
+
+    val a = sin(dlat / 2).pow(2) + cos(lat1) * cos(lat2) * sin(dlon / 2).pow(2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    return earthRadius * c
+}
+
+fun LocationDetails.distanceTo(locationOther: LocationDetails) : Double {
+    return calculateDistance(this, locationOther)
 }

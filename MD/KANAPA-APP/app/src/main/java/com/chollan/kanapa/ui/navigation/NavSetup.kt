@@ -1,7 +1,14 @@
 package com.chollan.kanapa.ui.navigation
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -17,12 +24,31 @@ import com.chollan.kanapa.ui.component.SplashScreen
 
 @Composable
 fun NavSetup(navController: NavHostController, modifier: Modifier = Modifier) {
-    NavHost(navController = navController, startDestination = Screen.Splash.route ) {
+    var imageResult by remember { mutableStateOf(Uri.EMPTY) }
+    var cameraHasTake by remember { mutableStateOf(false) }
+
+    NavHost(navController = navController, startDestination = Screen.Splash.route) {
+
         composable(Screen.Result.route) {
-            ResultScreen(modifier = modifier, navController = navController)
+            ResultScreen(
+                modifier = modifier,
+                navController = navController,
+                imageResult = imageResult
+            )
         }
         composable(Screen.Home.route) {
-            HomeScreen(modifier = modifier.padding(top = 24.dp), navController = navController)
+            HomeScreen(
+                modifier = modifier.padding(top = 24.dp),
+                navController = navController,
+                onImageCaptured = {
+                    imageResult = it
+                    cameraHasTake = true
+                },
+                hasTakeCamera = cameraHasTake,
+                resetCamera = {
+                    cameraHasTake = false
+                }
+            )
         }
         composable(Screen.Splash.route) {
             SplashScreen(modifier = modifier.padding(top = 24.dp), navController = navController)
@@ -40,7 +66,11 @@ fun NavSetup(navController: NavHostController, modifier: Modifier = Modifier) {
             AuthScreen(modifier = modifier.padding(top = 24.dp), navController = navController)
         }
         composable(Screen.Register.route) {
-            AuthScreen(modifier = modifier.padding(top = 24.dp), navController = navController, isLogin = false)
+            AuthScreen(
+                modifier = modifier.padding(top = 24.dp),
+                navController = navController,
+                isLogin = false
+            )
         }
     }
 }
