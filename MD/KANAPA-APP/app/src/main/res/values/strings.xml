@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">KANAPA</string>
+    <string name="detail_cupang">Cupang, ikan laga, atau ikan adu siam (Betta sp.) adalah ikan air tawar yang habitat asalnya adalah beberapa negara di Asia Tenggara, antara lain Thailand, Malaysia, Brunei Darussalam, Singapura, Vietnam, dan Indonesia. Ikan ini mempunyai bentuk dan karakter yang unik dan cenderung agresif dalam mempertahankan wilayahnya. Di kalangan penggemar, ikan cupang umumnya terbagi atas tiga golongan, yaitu cupang hias, cupang aduan, dan cupang liar. Di Indonesia terdapat cupang asli, salah satunya adalah Betta channoides yang ditemukan di Pampang, Kalimantan Timur.</string>
+    <string name="versi_app">v.0.1.0</string>
+    <string name="bangkit_capstone_project">Bangkit Capstone Project</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">email</string>
+    <string name="name">nama</string>
+    <string name="password">password</string>
+    <string name="have_account">Sudah memiliki akun ?</string>
+    <string name="havent_account">Belum memiliki akun ?</string>
+    <string name="find_nearest_store">Temukan toko terdekat</string>
+</resources>
