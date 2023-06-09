@@ -1,3 +1,7 @@
-# KANAPA
+### Dataset
+Untuk akses dataset dapat melalui link Berikut:
 
-Berasal dari kata "Ikan Apa" yang berarti aplikasi mencari tahu ikan apa tuh
+[![kaggle](https://img.shields.io/badge/Kaggle-blue?logo=kaggle)](https://www.kaggle.com/datasets/companionofprophet/ikanhias)
+
+Dataset di dapat melalui scrapping 90% dan melalui 
+### 
