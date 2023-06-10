@@ -50,6 +50,7 @@ import java.util.concurrent.Executors
 @Composable
 fun HomeScreen(
     onImageCaptured: (Uri) -> Unit,
+    onGalleryClick: () -> Unit,
     hasTakeCamera: Boolean,
     resetCamera: () -> Unit,
     modifier: Modifier = Modifier,
@@ -68,6 +69,7 @@ fun HomeScreen(
         CameraView(
             executor = cameraExecutor,
             onImageCaptured = onImageCaptured,
+            onGalleryClick = onGalleryClick,
             onError = {
                 Log.e("KANAPA", "View error:", it)
             },
@@ -85,7 +87,7 @@ fun HomeScreen(
 fun PreviewHomeScreen() {
     KANAPATheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
-            HomeScreen({}, false, {})
+            HomeScreen({}, {},false, {})
         }
     }
 }

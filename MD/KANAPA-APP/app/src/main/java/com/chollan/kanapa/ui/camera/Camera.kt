@@ -77,7 +77,7 @@ private fun takePhoto(
 
     imageCapture.takePicture(outputOptions, executor, object : ImageCapture.OnImageSavedCallback {
         override fun onError(exception: ImageCaptureException) {
-            Log.e("kilo", "Take photo error:", exception)
+            Log.e("KANAPA", "Take photo error:", exception)
             onError(exception)
         }
 
@@ -102,6 +102,7 @@ private suspend fun Context.getCameraProvider(): ProcessCameraProvider =
 fun CameraView(
     executor: Executor,
     onImageCaptured: (Uri) -> Unit,
+    onGalleryClick: () -> Unit,
     onError: (ImageCaptureException) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
@@ -197,7 +198,7 @@ fun CameraView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            IconButton(onClick = { }) {
+            IconButton(onClick = onGalleryClick) {
                 Icon(
                     painter = painterResource(id = R.drawable.round_collections_24),
                     contentDescription = "Localized description",

@@ -3,9 +3,13 @@ package com.chollan.kanapa.ui.component
 import android.app.Activity
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,9 +19,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -44,15 +50,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chollan.kanapa.R
+import com.chollan.kanapa.model.DataKanapa
+import com.chollan.kanapa.model.DetailFish
+import com.chollan.kanapa.response.PredictResponse
 import com.chollan.kanapa.ui.navigation.Screen
 import com.chollan.kanapa.ui.theme.KANAPATheme
 
 @Composable
 fun ResultScreen(
     imageResult: Uri,
+    postPredict: PredictResponse,
+    isLoading: Boolean,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -66,6 +78,9 @@ fun ResultScreen(
                 WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
             }
         }
+
+        val detailFishList = DataKanapa.detailFishList
+
         Column {
             Column(
                 modifier = Modifier
@@ -74,7 +89,7 @@ fun ResultScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(imageResult),
+                    painter = if (isLoading) rememberAsyncImagePainter("") else rememberAsyncImagePainter(imageResult),
                     contentDescription = "",
                     modifier = Modifier
                         .height(320.dp)
@@ -83,13 +98,13 @@ fun ResultScreen(
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    text = "Cupang",
+                    text = postPredict.predict,
                     fontWeight = FontWeight.Bold,
                     fontSize = 28.sp,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
                 )
                 Text(
-                    text = "Kemiripan 18%",
+                    text = if (isLoading) "" else "Kemiripan ${String.format("%.2f", postPredict.probability)}%",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 )
@@ -105,15 +120,17 @@ fun ResultScreen(
                         bottom = 8.dp
                     )
                 )
-                Text(
-                    text = stringResource(id = R.string.detail_cupang),
-                    textAlign = TextAlign.Justify,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                )
+                detailFishList.find { it.name == postPredict.predict }?.let {
+                    Text(
+                        text = it.detail,
+                        textAlign = TextAlign.Justify,
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    )
+                }
 
             }
-            Row(
+            if (!isLoading) Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.surface)
@@ -131,7 +148,7 @@ fun ResultScreen(
                 }
             }
         }
-        Row(
+        if (!isLoading) Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(24.dp)
@@ -149,6 +166,23 @@ fun ResultScreen(
                 .padding(top = 24.dp),
             navController = navController
         )
+
+        AnimatedVisibility(
+            modifier = Modifier
+                .matchParentSize(),
+            visible = isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CircularProgressIndicator(modifier = Modifier.wrapContentSize())
+            }
+        }
     }
 
 }
@@ -159,7 +193,7 @@ fun ResultScreen(
 fun PreviewResultScreen() {
     KANAPATheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
-            ResultScreen(Uri.EMPTY)
+            ResultScreen(Uri.EMPTY, PredictResponse(3.14f, "Cupang"), true)
         }
     }
 }
