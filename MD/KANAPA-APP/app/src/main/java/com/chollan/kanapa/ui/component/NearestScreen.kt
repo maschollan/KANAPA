@@ -1,14 +1,8 @@
 package com.chollan.kanapa.ui.component
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.location.Location
 import android.os.Looper
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,14 +22,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,13 +38,12 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.chollan.kanapa.MainActivity
 import com.chollan.kanapa.R
+import com.chollan.kanapa.helper.calculateDistance
 import com.chollan.kanapa.helper.distanceTo
-import com.chollan.kanapa.helper.getDistance
+import com.chollan.kanapa.helper.sortByDistance
 import com.chollan.kanapa.helper.toLatLng
 import com.chollan.kanapa.model.DataKanapa
 import com.chollan.kanapa.model.LocationDetails
@@ -74,9 +66,12 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 @Composable
-fun NearestItem(nearest: NearStore, modifier: Modifier = Modifier) {
+fun NearestItem(
+    nearest: NearStore, modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -117,11 +112,10 @@ fun NearestItem(nearest: NearStore, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = nearest.distance.getDistance(),
+                text = DecimalFormat("#.#").format(nearest.distance) + "km",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(end = 2.dp)
+                modifier = Modifier.padding(end = 2.dp)
             )
             Icon(
                 painter = painterResource(id = R.drawable.round_arrow_forward_ios_24),
@@ -136,8 +130,7 @@ fun NearestItem(nearest: NearStore, modifier: Modifier = Modifier) {
 @SuppressLint("MissingPermission")
 @Composable
 fun NearestScreen(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()
 ) {
     val listState = rememberLazyListState()
     val nearestList = DataKanapa.storeList
@@ -167,13 +160,11 @@ fun NearestScreen(
                 val oldLocation = currentLocation
                 currentLocation = LocationDetails(lo.latitude, lo.longitude)
 
-                val newCameraPosition =
-                    CameraPosition.fromLatLngZoom(
-                        LatLng(
-                            currentLocation.latitude,
-                            currentLocation.longitude
-                        ), 12f
-                    )
+                val newCameraPosition = CameraPosition.fromLatLngZoom(
+                    LatLng(
+                        currentLocation.latitude, currentLocation.longitude
+                    ), 12f
+                )
 
                 if (currentLocation.distanceTo(oldLocation) > 10) coroutineScope.launch {
                     cameraPositionState.animate(
@@ -194,9 +185,7 @@ fun NearestScreen(
                 priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             }
             fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                it,
-                Looper.getMainLooper()
+                locationRequest, it, Looper.getMainLooper()
             )
         }
     }
@@ -233,22 +222,22 @@ fun NearestScreen(
         )
 
 
-        LazyColumn(state = listState) {
-            itemsIndexed(nearestList) { index, nearest ->
-                NearestItem(nearest = nearest, Modifier.clickable {
-                    val newCameraPosition =
-                        CameraPosition.fromLatLngZoom(nearest.toLatLng(), 14f)
+        if (!(currentLocation.latitude >= 0 && currentLocation.longitude >= 0)) LazyColumn(state = listState) {
+            itemsIndexed(nearestList.sortByDistance(currentLocation)) { index, nearest ->
+                NearestItem(nearest = nearest,
+                    Modifier.clickable {
+                        val newCameraPosition =
+                            CameraPosition.fromLatLngZoom(nearest.toLatLng(), 14f)
 
-                    coroutineScope.launch {
-                        cameraPositionState.animate(
-                            CameraUpdateFactory.newCameraPosition(
-                                newCameraPosition
-                            ), 1000
-                        )
-                    }
-                })
-                if (index < nearestList.lastIndex)
-                    Divider(color = MaterialTheme.colorScheme.inverseOnSurface)
+                        coroutineScope.launch {
+                            cameraPositionState.animate(
+                                CameraUpdateFactory.newCameraPosition(
+                                    newCameraPosition
+                                ), 1000
+                            )
+                        }
+                    })
+                if (index < nearestList.lastIndex) Divider(color = MaterialTheme.colorScheme.inverseOnSurface)
             }
         }
     }

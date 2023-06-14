@@ -3,7 +3,6 @@ package com.chollan.kanapa.ui.component
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,13 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -26,6 +22,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,28 +40,32 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.chollan.kanapa.R
+import com.chollan.kanapa.model.AuthUser
 import com.chollan.kanapa.model.DataKanapa
 import com.chollan.kanapa.ui.navigation.Screen
 import com.chollan.kanapa.ui.theme.KANAPATheme
 
 @Composable
 fun ProfileScreen(
+    authUser: AuthUser,
+    onLogout: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
     val historyDetect = DataKanapa.historyList
     val listState = rememberLazyGridState()
+    val showHistory by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = modifier) {
         TopBar(navController = navController, isBack = true)
         Text(
-            text = "Ahmad Aldi Prayitno",
+            text = authUser.name,
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
         )
         Text(
-            text = "ahmad.aldi@gmail.com",
+            text = authUser.email,
             fontSize = 16.sp,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         )
@@ -82,7 +85,7 @@ fun ProfileScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .clickable { navController.navigate(Screen.Login.route) }
+                .clickable { onLogout() }
                 .padding(16.dp)
         ) {
             Column(
@@ -143,8 +146,11 @@ fun ProfileScreen(
                 tint = MaterialTheme.colorScheme.onSurface,
             )
         }
-        Divider(color = MaterialTheme.colorScheme.inverseOnSurface, thickness = 8.dp)
-        Text(
+        if (showHistory) Divider(
+            color = MaterialTheme.colorScheme.inverseOnSurface,
+            thickness = 8.dp
+        )
+        if (showHistory) Text(
             text = "Riwayat",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
@@ -155,7 +161,7 @@ fun ProfileScreen(
                 bottom = 8.dp
             )
         )
-        LazyVerticalGrid(
+        if (showHistory) LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -199,7 +205,7 @@ fun ProfileScreen(
 fun PreviewProfileScreen() {
     KANAPATheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
-            ProfileScreen()
+            ProfileScreen(AuthUser("Ahmad Aldi Prayitno", "aldi@mail.com", ""),{})
         }
     }
 }

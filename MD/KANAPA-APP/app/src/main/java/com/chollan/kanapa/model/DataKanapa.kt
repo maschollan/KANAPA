@@ -5,37 +5,36 @@ import com.chollan.kanapa.R
 object DataKanapa {
     val storeList: List<NearStore>
         get() {
-            val list = listOf(
+            return listOf(
                 NearStore(
                     "Toko Ikan Hias Pak Manan",
                     "Jl. Pakubuwono, Jalaran, Semarang",
-                    1094,
-                    "Tersedia : Cupang,  Koi, Manfish, dll",
+                    1094.0,
+                    "Tersedia : Cupang,  Koi, Manfish, Discuss, dll",
                     -6.9991684f, 110.38984f
                 ),
                 NearStore(
                     "Fish Store Aquamarine",
-                    "Jl. Kebahagian no. 19, Bumiwati, Kudus",
-                    1734,
-                    "Tersedia : Koi, Cupang, Guppy, dll",
+                    "Jl. Kebahagian no. 19, Bumiwati, Semarang",
+                    1734.0,
+                    "Tersedia : Koi, Cupang, Discuss, Guppy, dll",
                     -6.9912257f, 110.43785f
                 ),
                 NearStore(
                     "Aquarium World & Pet",
                     "Jl. Pakubuwono, Jalaran, Semarang",
-                    1356,
-                    "Tersedia : Cupang, Lohan, Lemonfish, dll",
+                    1356.0,
+                    "Tersedia : Cupang, discuss, Lohan, Lemonfish, dll",
                     -7.053691f, 110.42466f
                 ),
                 NearStore(
-                    "Oceanic Delights Sunter Jaya",
-                    "Jl. Kebahagian no. 19, Bumiwati, Kudus",
-                    2081,
-                    "Tersedia : Ikan Cupang,  Koi, Moly, dll",
+                    "Oceanic Delights Jaya",
+                    "Jl. Kebahagian no. 19, Bumiwati, Semarang",
+                    2081.0,
+                    "Tersedia : Ikan Cupang,  Koi, Moly, discuss, dll",
                     -7.033085f, 110.41644f
                 )
             )
-            return list
         }
 
     val historyList: List<FishDetect> = listOf(

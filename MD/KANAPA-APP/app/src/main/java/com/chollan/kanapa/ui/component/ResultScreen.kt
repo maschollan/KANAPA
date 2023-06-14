@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -37,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,9 +47,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chollan.kanapa.R
 import com.chollan.kanapa.model.DataKanapa
-import com.chollan.kanapa.model.DetailFish
 import com.chollan.kanapa.response.PredictResponse
-import com.chollan.kanapa.ui.navigation.Screen
 import com.chollan.kanapa.ui.theme.KANAPATheme
 
 @Composable
@@ -61,6 +55,7 @@ fun ResultScreen(
     imageResult: Uri,
     postPredict: PredictResponse,
     isLoading: Boolean,
+    onFindNearest: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
@@ -137,7 +132,7 @@ fun ResultScreen(
                     .padding(16.dp)
             ) {
                 Button(
-                    onClick = { navController.navigate(Screen.Login.route) },
+                    onClick = { onFindNearest() },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
@@ -193,7 +188,7 @@ fun ResultScreen(
 fun PreviewResultScreen() {
     KANAPATheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
-            ResultScreen(Uri.EMPTY, PredictResponse(3.14f, "Cupang"), true)
+            ResultScreen(Uri.EMPTY, PredictResponse(3.14f, "Cupang"), true, {})
         }
     }
 }

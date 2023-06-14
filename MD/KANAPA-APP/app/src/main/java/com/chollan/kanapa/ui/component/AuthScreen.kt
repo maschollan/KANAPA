@@ -10,25 +10,34 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +45,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,10 +62,17 @@ import com.chollan.kanapa.ui.theme.Reset
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthScreen(
+    isLoading: Boolean,
+    onPostClick: (String, String, String) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     isLogin: Boolean = true
 ) {
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
     Reset(MaterialTheme.colorScheme)
     Column(modifier = modifier) {
         Column(
@@ -83,8 +102,8 @@ fun AuthScreen(
 
             if (!isLogin) Row(modifier = Modifier.padding(bottom = 16.dp)) {
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = name,
+                    onValueChange = { name = it },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Rounded.Person,
@@ -104,6 +123,7 @@ fun AuthScreen(
                             color = MaterialTheme.colorScheme.inverseSurface
                         )
                     },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 48.dp)
@@ -118,8 +138,8 @@ fun AuthScreen(
 
             Row(modifier = Modifier.padding(bottom = 16.dp)) {
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = email,
+                    onValueChange = { email = it },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Rounded.Email,
@@ -139,6 +159,7 @@ fun AuthScreen(
                             color = MaterialTheme.colorScheme.inverseSurface
                         )
                     },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 48.dp)
@@ -153,8 +174,8 @@ fun AuthScreen(
 
             Row(modifier = Modifier.padding(bottom = 16.dp)) {
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = password,
+                    onValueChange = { password = it },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Rounded.Lock,
@@ -173,6 +194,20 @@ fun AuthScreen(
                             stringResource(R.string.password),
                             color = MaterialTheme.colorScheme.inverseSurface
                         )
+                    },
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    trailingIcon = {
+                        val image = if (passwordVisible)
+                            R.drawable.round_visibility_24
+                        else R.drawable.round_visibility_off_24
+
+                        // Please provide localized description for accessibility services
+                        val description = if (passwordVisible) "Hide password" else "Show password"
+
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(painterResource(image), description)
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -212,16 +247,25 @@ fun AuthScreen(
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(16.dp)
         ) {
-            Button(onClick = {
-                navController.popBackStack()
-                if (isLogin) navController.navigate(Screen.Nearest.route)
-                else navController.navigate(Screen.Login.route)
-            }, modifier = Modifier.fillMaxWidth()) {
-                Text(
+            Button(
+                onClick = {
+//                    navController.popBackStack()
+//                    if (isLogin) navController.navigate(Screen.Nearest.route)
+//                    else navController.navigate(Screen.Login.route)
+                    onPostClick(name, email, password)
+                },
+                enabled = !isLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                if (isLoading) CircularProgressIndicator(modifier = Modifier.wrapContentSize())
+                else Text(
                     text = stringResource(if (isLogin) R.string.login else R.string.register).uppercase(),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
+
             }
         }
     }
@@ -234,7 +278,7 @@ fun AuthScreen(
 fun PreviewLoginScreen() {
     KANAPATheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
-            AuthScreen(isLogin = false)
+            AuthScreen(true, { _, _, _ -> }, isLogin = false)
         }
     }
 }

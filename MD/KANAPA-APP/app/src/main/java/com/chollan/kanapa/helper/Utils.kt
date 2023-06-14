@@ -69,6 +69,43 @@ fun rotateFile(file: File, isBackCamera: Boolean = false) {
     result.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
 }
 
+fun calculateScaleFactor(imageWidth: Int, imageHeight: Int, maxWidth: Int, maxHeight: Int): Int {
+    var scaleFactor = 1
+
+    if (imageWidth > maxWidth || imageHeight > maxHeight) {
+        val widthScaleFactor = imageWidth / maxWidth
+        val heightScaleFactor = imageHeight / maxHeight
+        scaleFactor = if (widthScaleFactor > heightScaleFactor) {
+            widthScaleFactor
+        } else {
+            heightScaleFactor
+        }
+    }
+
+    return scaleFactor
+}
+
+fun resizeImage(file: File, maxWidth: Int, maxHeight: Int) {
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeFile(file.absolutePath, options)
+
+    val imageWidth = options.outWidth
+    val imageHeight = options.outHeight
+
+    val scaleFactor = calculateScaleFactor(imageWidth, imageHeight, maxWidth, maxHeight)
+
+    options.inJustDecodeBounds = false
+    options.inSampleSize = scaleFactor
+
+    val bitmap = BitmapFactory.decodeFile(file.absolutePath, options)
+
+    val outputStream = FileOutputStream(file)
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+    outputStream.flush()
+    outputStream.close()
+}
+
 fun uriToFile(selectedImg: Uri, context: Context): File {
     val contentResolver: ContentResolver = context.contentResolver
     val myFile = createCustomTempFile(context)
@@ -104,6 +141,17 @@ fun calculateDistance(location1: LocationDetails, location2: LocationDetails): D
     return earthRadius * c
 }
 
-fun LocationDetails.distanceTo(locationOther: LocationDetails) : Double {
+fun LocationDetails.distanceTo(locationOther: LocationDetails): Double {
     return calculateDistance(this, locationOther)
+}
+
+fun List<NearStore>.sortByDistance(currentLocation: LocationDetails): List<NearStore> {
+    for (nearStore in this) {
+        nearStore.distance = calculateDistance(
+            currentLocation,
+            LocationDetails(nearStore.lat.toDouble(), nearStore.lon.toDouble())
+        )
+    }
+
+    return this.sortedBy { it.distance }
 }

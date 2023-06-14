@@ -29,7 +29,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.chollan.kanapa.R
 import com.chollan.kanapa.ui.theme.KANAPATheme
-import com.chollan.kanapa.ui.theme.Reset
 
 @Composable
 fun TopBar(
@@ -63,7 +62,7 @@ fun TopBar(
 @Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
 fun PreviewTopBar() {
-    KANAPATheme() {
+    KANAPATheme {
         TopBar()
     }
 }
@@ -71,7 +70,7 @@ fun PreviewTopBar() {
 @Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
 fun PreviewTopBarWithBack() {
-    KANAPATheme() {
+    KANAPATheme {
         TopBar(isBack = true)
     }
 }
