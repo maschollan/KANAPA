@@ -28,8 +28,8 @@ Our team made this project because they realized that many ordinary people are n
       <td>Ario Tua Purba</td>
       <td>Machine Learning</td>
       <td>
-        <a href="https://github.com/"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
-        <a href=""><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+        <a href="https://github.com/ariopurba"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
+        <a href="https://www.linkedin.com/in/ario-tua-purba-606097148/"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
       </td>
     </tr>
     <tr>
@@ -37,8 +37,8 @@ Our team made this project because they realized that many ordinary people are n
       <td>Zaenul Muntaha</td>
       <td>Machine Learning</td>
     <td>
-        <a href="https://github.com/"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
-        <a href=""><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+        <a href="https://github.com/mazzennn"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
+        <a href="http://linkedin.com/in/zaenul-muntaha-332493240/"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
       </td>
     </tr>
     <tr>
@@ -46,8 +46,8 @@ Our team made this project because they realized that many ordinary people are n
       <td>Rossianna Dewi Sri Hutabarat</td>
       <td>Machine Learning</td>
     <td>
-        <a href="https://github.com/"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
-        <a href=""><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+        <a href="https://github.com/rossiannahutabarat"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
+        <a href="https://www.linkedin.com/in/rossiannadewi/"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
       </td>
     </tr>
     <tr>
@@ -55,8 +55,8 @@ Our team made this project because they realized that many ordinary people are n
       <td>Muhammad Rahmat Muhaimin</td>
       <td>Cloud Computing</td>
  <td>
-        <a href="https://github.com/"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
-        <a href=""><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+        <a href="https://github.com/mrahmatmuhaimin"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
+        <a href="http://linkedin.com/in/muhammad-rahmat-m-ba3b28136"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
       </td>
     </tr>
     <tr>
@@ -64,8 +64,8 @@ Our team made this project because they realized that many ordinary people are n
       <td>Mohammad Lukman Hakim</td>
       <td>Cloud Computing</td>
    <td>
-        <a href="https://github.com/"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
-        <a href=""><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+        <a href="https://github.com/loekem"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
+        <a href="https://www.linkedin.com/in/mohammad-lukman-hakim-117a68272"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
       </td>
     </tr>
     <tr>
@@ -73,8 +73,8 @@ Our team made this project because they realized that many ordinary people are n
       <td>Kholan Mustaqim</td>
       <td>Mobile Development</td>
  <td>
-        <a href="https://github.com/"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
-        <a href=""><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+        <a href="https://github.com/maschollan"><img src="https://img.shields.io/badge/github-121013?style=for-the-badge&logo=github&logoColor=white"></a>
+        <a href="https://www.linkedin.com/in/kholan-m/"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"></a>
       </td>
     </tr>
   </table>
