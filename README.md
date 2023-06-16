@@ -81,7 +81,11 @@ Our team made this project because they realized that many ordinary people are n
 </div>
 
 ### Demo Our App
-[![YouTube Video](https://img.youtube.com/vi/MLo4IgjOO7Q/0.jpg)](https://www.youtube.com/watch?v=MLo4IgjOO7Q)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=MLo4IgjOO7Q">
+    <img src="https://img.youtube.com/vi/MLo4IgjOO7Q/0.jpg" alt="YouTube Video" />
+  </a>
+</p>
 
 
 ## Resources
