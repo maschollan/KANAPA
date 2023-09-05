@@ -87,6 +87,12 @@ Our team made this project because they realized that many ordinary people are n
   </a>
 </p>
 
+### Our Presentation
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=GOElbi0PYsk">
+    <img src="https://img.youtube.com/vi/MLo4IgjOO7Q/0.jpg" alt="YouTube Video" />
+  </a>
+</p>
 
 ## Resources
 In our project is divided into four branches.
