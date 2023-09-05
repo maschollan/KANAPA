@@ -21,7 +21,7 @@ You can get it through this [link](https://drive.google.com/file/d/1XiQVH7yVTdA2
 uvicorn main:app --reload
 ```
 
-You will obtain an output similar to this in the console:
+You will get output similar to this on the console:
 
 ```text
 INFO:     Will watch for changes in these directories: ['E:\\Projects\\deploy_model']
