@@ -6,7 +6,7 @@ Untuk akses dataset dapat melalui link Berikut:
 Dataset di dapat melalui scrapping 90% dan melalui Platform Kaggle
 
 ## Task
-The goal is to develop a system that can identify different types of ornamental fish based on input images or other relevant features. This task involves training a machine learning model to recognize and classify various species of ornamental fish.
+The objective is to create a system capable of recognizing diverse ornamental fish species by analyzing input images or related characteristics. Achieving this goal entails training a machine learning model for the purpose of classifying these fish types.
 
 ## What ML model do in our app
 ![](./img/ml-impl.png)
